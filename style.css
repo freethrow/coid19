@@ -153,7 +153,10 @@ footer h5 a {
   font-size: 1.5em;
   font-family: "Gloria Hallelujah", cursive;
 }
-
+footer .small {
+  font-weight: 100;
+  font-size: 0.8em;
+}
 footer h5 a:hover {
   text-decoration: none;
   color: #fff;

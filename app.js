@@ -123,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   createSelector();
+  drawChart(countries, metric);
 });
 
 const processData = () => {
@@ -220,8 +221,6 @@ const drawChart = (countries, metric) => {
   });
   chart = myChart;
 };
-
-drawChart(countries, metric);
 
 const createSelector = () => {
   const fullData = JSON.parse(localStorage.getItem("countryData"));
