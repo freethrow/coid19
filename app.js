@@ -57,85 +57,6 @@ function checkOldData() {
   }
 }
 
-function action() {
-  console.log("Action pressed");
-  //console.log("Checking LS:", checkLocalStorage());
-  // take time and put it in the dataDate localstorage
-
-  let now = new Date();
-  console.log(now);
-  window.localStorage.setItem("dataDate", now.getTime() / 1000);
-}
-
-function readDate() {
-  let dataDate = window.localStorage.getItem("dataDate");
-  console.log(dataDate);
-
-  // create new date
-  let lsDate = new Date(dataDate * 1000);
-  let now = new Date();
-  let diff = Math.round((now - lsDate) / 1000);
-  console.log("Difference is ", diff, " seconds");
-  console.log(lsDate);
-}
-
-// AXIOS
-
-document.addEventListener("DOMContentLoaded", function () {
-  // load world population
-  axios
-    .get(localPopulationURL)
-    .then(function (popRes) {
-      window.localStorage.setItem(
-        "populationData",
-        JSON.stringify(popRes.data)
-      );
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .then(function () {
-      populateDict();
-      console.log("Population data loaded");
-    });
-
-  // load external COVID jason
-
-  if (checkOldData()) {
-    axios
-      .get(URL)
-      .then(function (response) {
-        let now = new Date();
-
-        window.localStorage.setItem("dataDate", now.getTime() / 1000);
-        resData = response.data;
-        console.log(resData);
-        window.localStorage.setItem("countryData", JSON.stringify(resData));
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        console.log("Finished fetching...");
-      });
-  } else {
-    console.log("Data is fresh, no fetching.");
-  }
-
-  createSelector();
-  drawChart(countries, metric);
-});
-
-const processData = () => {
-  // get the data from localstorage
-  const fullData = JSON.parse(localStorage.getItem("countryData"));
-  //console.table(fullData);
-
-  // split by countries
-};
-
-processData();
-
 const drawChart = (countries, metric) => {
   // getting data
   const fullData = JSON.parse(localStorage.getItem("countryData"));
@@ -275,3 +196,49 @@ const populateDict = () => {
   console.log("Populating population :)");
   console.log(populationDict);
 };
+
+// AXIOS
+
+document.addEventListener("DOMContentLoaded", function () {
+  // load world population
+  axios
+    .get(localPopulationURL)
+    .then(function (popRes) {
+      window.localStorage.setItem(
+        "populationData",
+        JSON.stringify(popRes.data)
+      );
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {
+      populateDict();
+      console.log("Population data loaded");
+    });
+
+  // load external COVID jason
+
+  if (checkOldData()) {
+    axios
+      .get(URL)
+      .then(function (response) {
+        let now = new Date();
+
+        window.localStorage.setItem("dataDate", now.getTime() / 1000);
+        resData = response.data;
+        console.log(resData);
+        window.localStorage.setItem("countryData", JSON.stringify(resData));
+        createSelector();
+        drawChart(countries, metric);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        console.log("Finished fetching...");
+      });
+  } else {
+    console.log("Data is fresh, no fetching.");
+  }
+});
