@@ -1,5 +1,9 @@
 const URL = "https://pomber.github.io/covid19/timeseries.json";
 
+const localPopulationURL = "http://127.0.0.1:8080/wp.json";
+
+let populationDict = {};
+
 // color palette
 // let palette = ["#ffa600", "#ff6361", "#bc5090", "#003f5c", "#58508d"];
 
@@ -24,7 +28,7 @@ const metricSelector = document.getElementById("metric");
 let countrySelector;
 
 metricSelector.addEventListener("change", (event) => {
-  let metric = event.target.value;
+  metric = event.target.value;
   chart.destroy();
   drawChart(countries, metric);
 });
@@ -78,6 +82,25 @@ function readDate() {
 
 document.addEventListener("DOMContentLoaded", function () {
   createSelector();
+  // load world population
+  axios
+    .get(localPopulationURL)
+    .then(function (popRes) {
+      window.localStorage.setItem(
+        "populationData",
+        JSON.stringify(popRes.data)
+      );
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {
+      populateDict();
+      console.log("Population data loaded");
+    });
+
+  // load external COVID jason
+
   if (checkOldData()) {
     axios
       .get(URL)
@@ -103,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const processData = () => {
   // get the data from localstorage
   const fullData = JSON.parse(localStorage.getItem("countryData"));
-  console.table(fullData);
+  //console.table(fullData);
 
   // split by countries
 };
@@ -131,7 +154,15 @@ const drawChart = (countries, metric) => {
     // create data points for metric
     let dataPoints = [];
     countryData.forEach((el) => {
-      dataPoints.push(el[metric]);
+      if (metric == "deaths/confirmed") {
+        dataPoints.push(el["deaths"] / el["confirmed"]);
+      } else if (metric == "confirmed/100K") {
+        dataPoints.push((100000 * el["confirmed"]) / populationDict[country]);
+      } else if (metric == "deaths/100K") {
+        dataPoints.push((100000 * el["deaths"]) / populationDict[country]);
+      } else {
+        dataPoints.push(el[metric]);
+      }
     });
     dataObject["data"] = dataPoints;
     dataObject["backgroundColor"] = palette[index];
@@ -230,4 +261,16 @@ const createSelector = () => {
     },
   });
   countrySelector = instance;
+};
+
+// create a dictionary country:population
+const populateDict = () => {
+  const lsPopData = JSON.parse(localStorage.getItem("populationData"));
+
+  lsPopData.forEach((item) => {
+    populationDict[item.country] = parseInt(item.population);
+  });
+
+  console.log("Populating population :)");
+  console.log(populationDict);
 };
