@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Covid 2020</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap&subset=latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="banner-img"></div>
+    <div class="banner-txt">
+      <h1>Covid-19</h1>
+      <p>A simple take at visualizing the outbreak.</p>
+      <a href="">freethrow.rs</a>
+    </div>
+    <div class="visualization">
+      <h3>Compare numbers</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi,
+        corrupti?
+      </p>
+      <div class="chart">
+        <button id="action">Action</button>
+        <button id="read">Read</button>
+        <button id="check">Check</button>
+        <hr />
+      </div>
+      <div class="box">
+        <span id="metricSelect"> Select the metric</span>
+        <div class="">
+          <select name="metric" id="metric" class="select-pure__select">
+            <option value="confirmed">confirmed</option>
+            <option value="deaths">deaths</option>
+            <option value="recovered">recovered</option>
+          </select>
+        </div>
+      </div>
+      <div class="box">
+        <span id="countrySelect"> Select the countries to analyze</span>
+      </div>
+      <div class="chart">
+        <canvas id="chart1"></canvas>
+      </div>
+    </div>
+    <footer>
+      <h5>Footer text</h5>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed libero
+        rerum, consectetur quia perspiciatis eveniet.
+      </p>
+    </footer>
+  </body>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"
+    integrity="sha256-bd8XIKzrtyJ1O5Sh3Xp3GiuMIzWC42ZekvrMMD4GxRg="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"
+    integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo="
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="app.js"></script>
+  <script src="bundle.min.js"></script>
+</html>
