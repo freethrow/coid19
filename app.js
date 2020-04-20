@@ -1,6 +1,7 @@
 const URL = "https://pomber.github.io/covid19/timeseries.json";
 
-const localPopulationURL = "http://127.0.0.1:8080/wp.json";
+const localPopulationURL =
+  "https://raw.githubusercontent.com/freethrow/covid19/master/wp.json";
 
 let populationDict = {};
 
@@ -81,7 +82,6 @@ function readDate() {
 // AXIOS
 
 document.addEventListener("DOMContentLoaded", function () {
-  createSelector();
   // load world population
   axios
     .get(localPopulationURL)
@@ -121,6 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.log("Data is fresh, no fetching.");
   }
+
+  createSelector();
 });
 
 const processData = () => {
