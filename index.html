@@ -20,44 +20,45 @@
     <div class="banner-txt">
       <h1>Covid-19</h1>
       <p>A simple take at visualizing the outbreak.</p>
-      <a href="">freethrow.rs</a>
+      <a href="http://www.freethrow.rs">freethrow.rs</a>
     </div>
     <div class="visualization">
       <h3>Compare numbers</h3>
+      <hr />
       <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi,
-        corrupti?
+        We are surrounded by visualizations of the COVID-19 spread, so I guess
+        one more wouldn't hurt. The data is pulled in a JSON format from
+        <a href="https://pomber.github.io/covid19/timeseries.json">here</a>
+        and then it is cached in a localstorage.
       </p>
-      <div class="chart">
-        <button id="action">Action</button>
-        <button id="read">Read</button>
-        <button id="check">Check</button>
-        <hr />
-      </div>
-      <div class="box">
-        <span id="metricSelect"> Select the metric</span>
-        <div class="">
-          <select name="metric" id="metric" class="select-pure__select">
-            <option value="confirmed">confirmed</option>
-            <option value="deaths">deaths</option>
-            <option value="recovered">recovered</option>
-          </select>
+      <div class="knobs">
+        <div class="box">
+          <span id="metricSelect"> Select the metric</span>
+          <div class="">
+            <select name="metric" id="metric" class="select-pure__select">
+              <option value="confirmed" selected>confirmed</option>
+              <option value="deaths">deaths</option>
+              <option value="recovered">recovered</option>
+            </select>
+          </div>
+        </div>
+        <div class="box">
+          <span id="countrySelect"> Select the countries to analyze</span>
         </div>
       </div>
-      <div class="box">
-        <span id="countrySelect"> Select the countries to analyze</span>
-      </div>
+
       <div class="chart">
         <canvas id="chart1"></canvas>
       </div>
     </div>
     <footer>
-      <h5>Footer text</h5>
+      <div class="container">
+      <h5>Freethrow 2020 amidst covid19</h5>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed libero
-        rerum, consectetur quia perspiciatis eveniet.
+        data analysis / visualizations / machine learning / web development
       </p>
     </footer>
+  </div>
   </body>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"

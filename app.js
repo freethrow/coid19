@@ -1,14 +1,33 @@
 const URL = "https://pomber.github.io/covid19/timeseries.json";
 
-const actionBtn = document.getElementById("action");
-const readBtn = document.getElementById("read");
-const checkBtn = document.getElementById("check");
-actionBtn.addEventListener("click", action);
-readBtn.addEventListener("click", readDate);
-checkBtn.addEventListener("click", checkOldData);
-
 // color palette
-let palette = ["#ffa600", "#ff6361", "#bc5090", "#003f5c", "#58508d"];
+// let palette = ["#ffa600", "#ff6361", "#bc5090", "#003f5c", "#58508d"];
+
+let palette = [
+  "#ffa600",
+  "#f95d6a",
+  "#2f4b7c",
+  "#ff7c43",
+  "#d45087",
+  "#a05195",
+  "#003f5c",
+  "#f95d6a",
+];
+
+let chart;
+
+let metric = "confirmed";
+let countries = ["Russia", "China", "Italy", "Germany", "Spain"];
+
+const metricSelector = document.getElementById("metric");
+
+let countrySelector;
+
+metricSelector.addEventListener("change", (event) => {
+  let metric = event.target.value;
+  chart.destroy();
+  drawChart(countries, metric);
+});
 
 // check localstorage if there is the dataDate var
 // and if it is fresh enough: less than 6 hours
@@ -53,12 +72,12 @@ function readDate() {
   let diff = Math.round((now - lsDate) / 1000);
   console.log("Difference is ", diff, " seconds");
   console.log(lsDate);
-  createSelector();
 }
 
 // AXIOS
 
 document.addEventListener("DOMContentLoaded", function () {
+  createSelector();
   if (checkOldData()) {
     axios
       .get(URL)
@@ -74,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(error);
       })
       .then(function () {
-        createSelector();
         console.log("Finished fetching...");
       });
   } else {
@@ -119,7 +137,7 @@ const drawChart = (countries, metric) => {
     dataObject["backgroundColor"] = palette[index];
     dataObject["fill"] = false;
     dataObject["borderColor"] = palette[index];
-    dataObject["pointRadius"] = 5;
+    dataObject["pointRadius"] = 3;
     dataObject["pointHoverRadius"] = 10;
 
     countryDatasets.push(dataObject);
@@ -128,7 +146,7 @@ const drawChart = (countries, metric) => {
   // parametrize the id?
   const ctx = document.getElementById("chart1").getContext("2d");
 
-  console.log("XLABELS:", xlabels);
+  //console.log("XLABELS:", xlabels);
   const myChart = new Chart(ctx, {
     type: "line",
     data: {
@@ -140,9 +158,12 @@ const drawChart = (countries, metric) => {
         display: true,
         text: `Number of ${metric}`,
         fontFamily: "Open Sans",
-        fontSize: 54,
+        fontSize: 34,
         fontWeigth: 100,
         position: "left",
+      },
+      tooltips: {
+        enabled: true,
       },
 
       scales: {
@@ -164,9 +185,10 @@ const drawChart = (countries, metric) => {
       },
     },
   });
+  chart = myChart;
 };
 
-drawChart(["Russia", "China", "Italy", "Germany", "Spain"], "confirmed");
+drawChart(countries, metric);
 
 const createSelector = () => {
   const fullData = JSON.parse(localStorage.getItem("countryData"));
@@ -185,12 +207,12 @@ const createSelector = () => {
     placeholder: false,
 
     autocomplete: true,
-    value: ["China", "Germany", "Italy", "US"],
+    value: countries,
     icon: "fa fa-times",
     onChange: (value) => {
-      console.log(value);
-
-      drawChart(value, "confirmed");
+      countries = value;
+      chart.destroy();
+      drawChart(value, metric);
     },
     classNames: {
       select: "select-pure__select",
@@ -207,4 +229,5 @@ const createSelector = () => {
       optionHidden: "select-pure__option--hidden",
     },
   });
+  countrySelector = instance;
 };
