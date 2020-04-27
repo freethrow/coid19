@@ -92,7 +92,7 @@ const drawChart = (countries, metric) => {
     dataObject["backgroundColor"] = palette[index];
     dataObject["fill"] = false;
     dataObject["borderColor"] = palette[index];
-    dataObject["pointRadius"] = 3;
+    dataObject["pointRadius"] = 2;
     dataObject["pointHoverRadius"] = 10;
 
     countryDatasets.push(dataObject);
@@ -115,7 +115,7 @@ const drawChart = (countries, metric) => {
         fontFamily: "Open Sans",
         fontSize: 34,
         fontWeigth: 100,
-        position: "left",
+        position: "bottom",
       },
       tooltips: {
         enabled: true,
